@@ -4,6 +4,8 @@ import App from '../App';
 import RootLayout from '../Layouts/RootLayout';
 import Home from '../Pages/Root/Home';
 import DashboardLayout from '../Layouts/DashboardLayout';
+import Login from '../Pages/Login/Login';
+import SignUp from '../Pages/SignUp/SignUp';
 
 const Router = createBrowserRouter([
     {
@@ -12,7 +14,15 @@ const Router = createBrowserRouter([
         children: [{
             index: true,
             element: <Home />
-        }]
+        },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "signup",
+        element: <SignUp />,
+      },]
     }, {
         path: '/dashboard',
         Component: DashboardLayout,
