@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import useAuth from "../../hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 import { TbFidgetSpinner } from "react-icons/tb";
+import { saveOrUpdateUser } from "../../utils";
 
 
 const Login = () => {
@@ -30,7 +31,13 @@ const Login = () => {
     if (!validate()) return;
 
     try {
-       await signIn(email, password);
+        const { user } = await signIn(email, password);
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+        roll:""
+      });
     
       toast.success("Login Successful");
       navigate(from, { replace: true });
@@ -41,7 +48,12 @@ const Login = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-       await signInWithGoogle();
+        const { user } = await signInWithGoogle();
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+      });
     
       toast.success("Login Successful");
       navigate(from, { replace: true });
