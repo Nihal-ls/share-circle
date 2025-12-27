@@ -6,6 +6,7 @@ import Home from '../Pages/Root/Home';
 import DashboardLayout from '../Layouts/DashboardLayout';
 import Login from '../Pages/Login/Login';
 import SignUp from '../Pages/SignUp/SignUp';
+import DonateItem from '../Pages/Donate/DonateItem';
 
 const Router = createBrowserRouter([
     {
@@ -18,6 +19,10 @@ const Router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
+      },
+      {
+        path: "donate",
+        element: <DonateItem/>,
       },
       {
         path: "signup",

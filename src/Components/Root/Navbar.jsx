@@ -27,6 +27,18 @@ const Navbar = () => {
           </NavLink>
         </motion.li>
       )}
+      {user && (
+        <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <NavLink 
+            to="/donate"
+            className={({ isActive }) => 
+              `hover:text-orange-500 transition-colors ${isActive ? "text-orange-600 font-bold" : ""}`
+            }
+          >
+            Donate
+          </NavLink>
+        </motion.li>
+      )}
     </>
   );
 
@@ -35,9 +47,10 @@ const Navbar = () => {
       initial={{ y: -50, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 1.2, ease: "easeOut" }} 
-      className="p-4 max-w-7xl mx-auto"
+      className=" bg-[#FFF8F1]"
     >
-      <div className="navbar bg-base-100/80 backdrop-blur-md shadow-sm border border-orange-100 rounded-2xl px-4 lg:px-8">
+     <div className="p-4 max-w-7xl mx-auto">
+        <div className="navbar bg-base-100/80 backdrop-blur-md shadow-sm border border-orange-100 rounded-2xl px-4 lg:px-8">
         
         <div className="navbar-start">
           <div className="dropdown">
@@ -96,6 +109,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
+     </div>
     </motion.div>
   );
 };

@@ -48,9 +48,10 @@ const Banner = () => {
                         <Link to='/signup' className="btn bg-orange-500 hover:bg-orange-600 text-white border-none px-10 rounded-xl text-lg h-auto py-4 shadow-lg shadow-orange-200 transition-all hover:scale-105 active:scale-95">
                             Join Us
                         </Link>
-                        <button className="btn btn-outline border-2 border-gray-300 hover:bg-gray-100 text-gray-700 px-10 rounded-xl text-lg h-auto py-4 transition-all">
-                           Contact us
-                        </button>
+                         <Link to='/donate' className="btn btn-outline border-2 border-gray-300 hover:bg-gray-100 text-gray-700 px-10 rounded-xl text-lg h-auto py-4 transition-all">
+                          Donate Now
+                        </Link>
+                        
                     </div>
                     
                     <motion.div 
