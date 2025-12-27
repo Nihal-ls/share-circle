@@ -4,11 +4,11 @@ import useAuth from "../../hooks/useAuth";
 import { toast } from "react-hot-toast";
 import { TbFidgetSpinner } from "react-icons/tb";
 import { useForm } from "react-hook-form";
-import { imageUpload } from "../../utils";
-
+import { imageUpload, saveOrUpdateUser } from "../../utils";
 
 const SignUp = () => {
-  const { createUser, updateUserProfile, signInWithGoogle, loading } = useAuth();
+  const { createUser, updateUserProfile, signInWithGoogle, loading } =
+    useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
@@ -26,8 +26,13 @@ const SignUp = () => {
       const imageURL = await imageUpload(imageFile);
 
       await createUser(data.email, data.password);
-
-     
+      await saveOrUpdateUser({
+        name: data.name,
+        email: data.email,
+        image: imageURL,
+        address: data.address,
+        status: "active",
+      });
 
       await updateUserProfile(data.name, imageURL);
 
@@ -41,8 +46,13 @@ const SignUp = () => {
 
   const handleGoogleSignIn = async () => {
     try {
-     await signInWithGoogle();
-    
+      const { user } = await signInWithGoogle();
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+        address: "",
+      });
 
       navigate(from, { replace: true });
       toast.success("Signup Successful");
@@ -68,9 +78,16 @@ const SignUp = () => {
               type="text"
               placeholder="Your Name"
               className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-lime-400 focus:outline-none bg-[#FFF8F0]"
-              {...register("name", { required: "Name is required", maxLength: 20 })}
+              {...register("name", {
+                required: "Name is required",
+                maxLength: 20,
+              })}
             />
-            {errors.name && <span className="text-xs text-red-500 mt-1">{errors.name.message}</span>}
+            {errors.name && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.name.message}
+              </span>
+            )}
           </div>
 
           {/* Address */}
@@ -82,7 +99,11 @@ const SignUp = () => {
               className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-lime-400 bg-[#FFF8F0]"
               {...register("address", { required: "Address is required" })}
             />
-            {errors.address && <span className="text-xs text-red-500 mt-1">{errors.address.message}</span>}
+            {errors.address && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.address.message}
+              </span>
+            )}
           </div>
 
           {/* Profile Image */}
@@ -94,8 +115,14 @@ const SignUp = () => {
               className="cursor-pointer px-4 py-2 rounded-lg border-2 border-dashed border-lime-300 bg-[#FFF8F0] focus:outline-none focus:ring-2 focus:ring-lime-400"
               {...register("image", { required: "Profile image is required" })}
             />
-            {errors.image && <span className="text-xs text-red-500 mt-1">{errors.image.message}</span>}
-            <p className="text-xs text-gray-400 mt-1">PNG, JPG or JPEG (max 2MB)</p>
+            {errors.image && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.image.message}
+              </span>
+            )}
+            <p className="text-xs text-gray-400 mt-1">
+              PNG, JPG or JPEG (max 2MB)
+            </p>
           </div>
 
           {/* Email */}
@@ -113,7 +140,11 @@ const SignUp = () => {
                 },
               })}
             />
-            {errors.email && <span className="text-xs text-red-500 mt-1">{errors.email.message}</span>}
+            {errors.email && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.email.message}
+              </span>
+            )}
           </div>
 
           {/* Password */}
@@ -124,9 +155,16 @@ const SignUp = () => {
               placeholder="******"
               autoComplete="new-password"
               className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2  bg-[#FFF8F0]"
-              {...register("password", { required: "Password is required", minLength: 6 })}
+              {...register("password", {
+                required: "Password is required",
+                minLength: 6,
+              })}
             />
-            {errors.password && <span className="text-xs text-red-500 mt-1">{errors.password.message}</span>}
+            {errors.password && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.password.message}
+              </span>
+            )}
           </div>
 
           {/* Confirm Password */}
@@ -138,10 +176,15 @@ const SignUp = () => {
               className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2  bg-[#FFF8F0]"
               {...register("confirmPassword", {
                 required: "Confirm password is required",
-                validate: (value) => value === watch("password") || "Passwords do not match",
+                validate: (value) =>
+                  value === watch("password") || "Passwords do not match",
               })}
             />
-            {errors.confirmPassword && <span className="text-xs text-red-500 mt-1">{errors.confirmPassword.message}</span>}
+            {errors.confirmPassword && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.confirmPassword.message}
+              </span>
+            )}
           </div>
 
           <button
@@ -165,12 +208,17 @@ const SignUp = () => {
           className="flex items-center justify-center space-x-3 border border-gray-300 py-2 rounded-lg cursor-pointer hover:bg-[#FFF8F0] transition"
         >
           <FcGoogle size={28} />
-          <span className="font-medium text-gray-700">Continue with Google</span>
+          <span className="font-medium text-gray-700">
+            Continue with Google
+          </span>
         </div>
 
         <p className="text-center text-gray-400 text-sm mt-4">
           Already have an account?{" "}
-          <Link to="/login" className="text-[#FF6B35] font-medium hover:underline">
+          <Link
+            to="/login"
+            className="text-[#FF6B35] font-medium hover:underline"
+          >
             Login
           </Link>
         </p>
