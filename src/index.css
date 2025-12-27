@@ -2,3 +2,6 @@
  @plugin "daisyui" {
    themes: light --prefersdark
  }
+ .active{ 
+  @apply text-orange-600 font-bold scale-110 
+ }
