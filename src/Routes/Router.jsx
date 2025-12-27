@@ -7,6 +7,7 @@ import DashboardLayout from '../Layouts/DashboardLayout';
 import Login from '../Pages/Login/Login';
 import SignUp from '../Pages/SignUp/SignUp';
 import DonateItem from '../Pages/Donate/DonateItem';
+import ItemsForDonation from '../Pages/Items for donation/ItemsForDonation';
 
 const Router = createBrowserRouter([
     {
@@ -27,7 +28,12 @@ const Router = createBrowserRouter([
       {
         path: "signup",
         element: <SignUp />,
-      },]
+      },
+      {
+        path: "items-for-donation",
+        element: <ItemsForDonation/>
+      },
+    ]
     }, {
         path: '/dashboard',
         Component: DashboardLayout,

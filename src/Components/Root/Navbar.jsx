@@ -15,6 +15,13 @@ const Navbar = () => {
           Home
         </NavLink>
       </motion.li>
+      <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        <NavLink 
+          to="/items-for-donation" 
+          className='hover:text-orange-500 transition-colors'>
+          Items For Donation
+        </NavLink>
+      </motion.li>
       {user && (
         <motion.li whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <NavLink 
