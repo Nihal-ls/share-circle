@@ -1,117 +1,230 @@
-import { motion } from 'framer-motion';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router';
-import Swal from 'sweetalert2';
+import { Link, useLocation, useNavigate } from "react-router";
+import { FcGoogle } from "react-icons/fc";
+import useAuth from "../../hooks/useAuth";
+import { toast } from "react-hot-toast";
+import { TbFidgetSpinner } from "react-icons/tb";
+import { useForm } from "react-hook-form";
+import { imageUpload, saveOrUpdateUser } from "../../utils";
 
-const DonateItem = () => {
-    const navigate = useNavigate()
- const {handleSubmit,register} = useForm()
-      
- const handleformSubmit = (data) => {
-     Swal.fire({
-  title: "Thank you!",
-  text: "Your item is listed,Thanks for Donating",
-  icon: "success"
-});
- }
+const SignUp = () => {
+  const { createUser, updateUserProfile, signInWithGoogle, loading } =
+    useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
 
-    return (
-   <section className="py-16 bg-[#FFF8F1] min-h-screen flex items-center justify-center px-4">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-3xl w-full bg-white rounded-3xl shadow-sm border border-orange-100 p-8 md:p-12"
-      >
-        {/* Header */}
-        <div className="mb-10">
-          <h2 className="text-3xl font-bold text-gray-900">Donate an Item</h2>
-          <p className="text-gray-500 mt-2">Provide the details below to list your item on the Circle.</p>
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data) => {
+    try {
+      const imageFile = data.image[0];
+      const imageURL = await imageUpload(imageFile);
+
+      await createUser(data.email, data.password);
+      await saveOrUpdateUser({
+        name: data.name,
+        email: data.email,
+        image: imageURL,
+        address: data.address,
+        status: "active",
+      });
+
+      await updateUserProfile(data.name, imageURL);
+
+      navigate(from, { replace: true });
+      toast.success("Signup Successful");
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      const { user } = await signInWithGoogle();
+      await saveOrUpdateUser({
+        name: user?.displayName,
+        email: user?.email,
+        image: user?.photoURL,
+        address: "",
+      });
+
+      navigate(from, { replace: true });
+      toast.success("Signup Successful");
+    } catch (err) {
+      console.error(err);
+      toast.error(err?.message);
+    }
+  };
+
+  return (
+    <div className="flex justify-center items-center min-h-screen bg-[#FFF8F0] p-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-6 sm:p-8 flex flex-col">
+        <div className="text-center mb-6">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Sign Up</h1>
+          <p className="text-gray-500">Create your Share Circle account</p>
         </div>
 
-        <form className="space-y-6" onSubmit={handleSubmit(handleformSubmit)}>
-          {/* Row 1: Item Name (Full Width) */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700">Item Name</label>
-            <input 
-              type="text" 
-              placeholder="e.g. Winter Jacket, Desk Lamp..." 
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none transition-all"
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Name */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 mb-1">Name</label>
+            <input
+              type="text"
+              placeholder="Your Name"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-lime-400 focus:outline-none bg-[#FFF8F0]"
+              {...register("name", {
+                required: "Name is required",
+                maxLength: 20,
+              })}
             />
+            {errors.name && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.name.message}
+              </span>
+            )}
           </div>
 
-          {/* Row 2: Category & Condition (2 Columns) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-700">Category</label>
-              <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none bg-white">
-                <option>Select Category</option>
-                <option>Clothing</option>
-                <option>Furniture</option>
-                <option>Electronics</option>
-                <option>Books</option>
-              </select>
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-700">Condition</label>
-              <select className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none bg-white">
-                <option>New</option>
-                <option>Gently Used</option>
-                <option>Needs Repair</option>
-              </select>
-            </div>
-          </div>
-
-          {/* Row 3: Location & Quantity (2 Columns) */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-700">Pickup Location</label>
-              <input 
-                type="text" 
-                placeholder="e.g. Downtown, Dhaka" 
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none"
-              />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-gray-700">Quantity</label>
-              <input 
-                type="number" 
-                placeholder="1" 
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none"
-              />
-            </div>
-          </div>
-
-          {/* Row 4: Description (Full Width) */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700">Description</label>
-            <textarea 
-              rows="4"
-              placeholder="Tell us a little about the item..." 
-              className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-1 focus:ring-orange-500 outline-none resize-none"
-            ></textarea>
-          </div>
-
-          {/* Row 5: Photo Upload (Simple) */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-gray-700">Item Photo</label>
-            <input 
-              type="file" 
-              className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100 transition-all cursor-pointer"
+          {/* Address */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 mb-1">Address</label>
+            <input
+              type="text"
+              placeholder="Your Address"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-lime-400 bg-[#FFF8F0]"
+              {...register("address", { required: "Address is required" })}
             />
+            {errors.address && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.address.message}
+              </span>
+            )}
           </div>
 
-          {/* Submit Button */}
-          <div className="pt-4">
-            <button className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-4 rounded-xl shadow-md shadow-orange-100 transition-all active:scale-[0.98]">
-              Post Donation
-            </button>
+          {/* Profile Image */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 mb-1">Profile Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              className="cursor-pointer px-4 py-2 rounded-lg border-2 border-dashed border-lime-300 bg-[#FFF8F0] focus:outline-none focus:ring-2 focus:ring-lime-400"
+              {...register("image", { required: "Profile image is required" })}
+            />
+            {errors.image && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.image.message}
+              </span>
+            )}
+            <p className="text-xs text-gray-400 mt-1">
+              PNG, JPG or JPEG (max 2MB)
+            </p>
           </div>
+
+          {/* Email */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 mb-1">Email</label>
+            <input
+              type="email"
+              placeholder="Your Email"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-lime-400 bg-[#FFF8F0]"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                  message: "Invalid email",
+                },
+              })}
+            />
+            {errors.email && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.email.message}
+              </span>
+            )}
+          </div>
+
+          {/* Password */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 mb-1">Password</label>
+            <input
+              type="password"
+              placeholder="******"
+              autoComplete="new-password"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2  bg-[#FFF8F0]"
+              {...register("password", {
+                required: "Password is required",
+                minLength: 6,
+              })}
+            />
+            {errors.password && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.password.message}
+              </span>
+            )}
+          </div>
+
+          {/* Confirm Password */}
+          <div className="flex flex-col">
+            <label className="text-gray-700 mb-1">Confirm Password</label>
+            <input
+              type="password"
+              placeholder="******"
+              className="px-4 py-2 rounded-lg border border-gray-300 focus:ring-2  bg-[#FFF8F0]"
+              {...register("confirmPassword", {
+                required: "Confirm password is required",
+                validate: (value) =>
+                  value === watch("password") || "Passwords do not match",
+              })}
+            />
+            {errors.confirmPassword && (
+              <span className="text-xs text-red-500 mt-1">
+                {errors.confirmPassword.message}
+              </span>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full bg-[#FF6B35] hover:bg-[#e85a2b] text-white py-3 rounded-lg font-semibold transition flex justify-center items-center"
+          >
+            {loading ? <TbFidgetSpinner className="animate-spin" /> : "Sign Up"}
+          </button>
         </form>
-      </motion.div>
-    </section>
-    );
+
+        {/* Divider */}
+        <div className="flex items-center my-5">
+          <hr className="flex-1 border-gray-300" />
+          <span className="px-3 text-gray-400 text-sm">OR</span>
+          <hr className="flex-1 border-gray-300" />
+        </div>
+
+        {/* Google Sign In */}
+        <div
+          onClick={handleGoogleSignIn}
+          className="flex items-center justify-center space-x-3 border border-gray-300 py-2 rounded-lg cursor-pointer hover:bg-[#FFF8F0] transition"
+        >
+          <FcGoogle size={28} />
+          <span className="font-medium text-gray-700">
+            Continue with Google
+          </span>
+        </div>
+
+        <p className="text-center text-gray-400 text-sm mt-4">
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            className="text-[#FF6B35] font-medium hover:underline"
+          >
+            Login
+          </Link>
+        </p>
+      </div>
+    </div>
+  );
 };
 
-export default DonateItem;
+export default SignUp;
