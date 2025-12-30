@@ -67,7 +67,7 @@ const SignUp = () => {
       <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-6 sm:p-8 flex flex-col">
         <div className="text-center mb-6">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Sign Up</h1>
-          <p className="text-gray-500">Create your LocalChefBazaar account</p>
+          <p className="text-gray-500">Create your Share Circle Account</p>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
