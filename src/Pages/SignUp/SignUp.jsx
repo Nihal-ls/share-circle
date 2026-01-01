@@ -32,6 +32,7 @@ const SignUp = () => {
         image: imageURL,
         address: data.address,
         status: "active",
+        role: data.role,
       });
 
       await updateUserProfile(data.name, imageURL);
@@ -52,6 +53,7 @@ const SignUp = () => {
         email: user?.email,
         image: user?.photoURL,
         address: "",
+        role: "Donator",
       });
 
       navigate(from, { replace: true });
@@ -123,6 +125,13 @@ const SignUp = () => {
             <p className="text-xs text-gray-400 mt-1">
               PNG, JPG or JPEG (max 2MB)
             </p>
+          </div>
+          <div className="">
+            <select {...register('role')} defaultValue="Pick an Role" className="select w-full select-warning">
+              <option disabled={true}>Pick an Role</option>
+              <option value="Donator">Donator</option>
+              <option value="Recipient">Recipient</option>
+            </select>
           </div>
 
           {/* Email */}
