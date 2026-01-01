@@ -9,7 +9,7 @@ const useRole = () => {
     const [role, setRole] = useState([])
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-        fetch(`http://localhost:3000/users/role/${user?.email}`)
+        fetch(`https://share-circle-server.vercel.app/users/role/${user?.email}`)
             .then(res => res.json())
             .then(data => {
                 setRole(data)
