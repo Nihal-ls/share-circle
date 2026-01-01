@@ -1,5 +1,6 @@
 import React from 'react';
-import { Outlet } from 'react-router';
+import { FaUser } from 'react-icons/fa';
+import { NavLink, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
     return (
@@ -17,7 +18,7 @@ const DashboardLayout = () => {
                     </nav>
                     {/* Page content here */}
                     <div className="p-4">
-                        <Outlet/>
+                        <Outlet />
                     </div>
                 </div>
 
@@ -35,6 +36,16 @@ const DashboardLayout = () => {
                                 </button>
                             </li>
 
+                            {/* My profile */}
+                            <li>
+                                <NavLink to="/dashboard/profile">
+                                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Profile">
+                                        {/* Home icon */}
+                                        <FaUser />
+                                        <span className="is-drawer-close:hidden">Profile</span>
+                                    </button>
+                                </NavLink>
+                            </li>
                             {/* List item */}
                             <li>
                                 <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Settings">

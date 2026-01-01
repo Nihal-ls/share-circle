@@ -36,7 +36,6 @@ const Login = () => {
         name: user?.displayName,
         email: user?.email,
         image: user?.photoURL,
-        roll:""
       });
     
       toast.success("Login Successful");
@@ -68,7 +67,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-[#FFF8F0] p-4">
-      <div className="flex flex-col max-w-md p-6 rounded-3xl sm:p-10 bg-white shadow-lg">
+      <div className="flex flex-col max-w-md p-6 rounded-3xl  bg-white shadow-lg">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold text-gray-900">Log In</h1>
           <p className="text-sm text-gray-500">Sign in to access your account</p>

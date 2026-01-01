@@ -9,6 +9,7 @@ import SignUp from '../Pages/SignUp/SignUp';
 import DonateItem from '../Pages/Donate/DonateItem';
 import ItemsForDonation from '../Pages/Items for donation/ItemsForDonation';
 import PrivateRoute from './PrivateRouter';
+import Profile from '../Pages/Dashboard/Profile';
 
 const Router = createBrowserRouter([
   {
@@ -40,10 +41,15 @@ const Router = createBrowserRouter([
   }, {
     path: '/dashboard',
     Component: DashboardLayout,
-    children: [{
-      index: true,
-      element: <h1>Example</h1>
-    }]
+    children: [
+
+      {
+        path: "/dashboard/profile",
+        element: <PrivateRoute>
+          <Profile />
+        </PrivateRoute>
+      },
+    ]
   }
 ])
 
