@@ -8,40 +8,43 @@ import Login from '../Pages/Login/Login';
 import SignUp from '../Pages/SignUp/SignUp';
 import DonateItem from '../Pages/Donate/DonateItem';
 import ItemsForDonation from '../Pages/Items for donation/ItemsForDonation';
+import PrivateRoute from './PrivateRouter';
 
 const Router = createBrowserRouter([
+  {
+    path: '/',
+    element: <RootLayout />,
+    children: [{
+      index: true,
+      element: <Home />
+    },
     {
-        path: '/',
-        element: <RootLayout />,
-        children: [{
-            index: true,
-            element: <Home />
-        },
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "donate",
-        element: <DonateItem/>,
-      },
-      {
-        path: "signup",
-        element: <SignUp />,
-      },
-      {
-        path: "items-for-donation",
-        element: <ItemsForDonation/>
-      },
+      path: "login",
+      element: <Login />,
+    },
+    {
+      path: "donate",
+      element: <PrivateRoute>
+        <DonateItem />
+      </PrivateRoute>
+    },
+    {
+      path: "signup",
+      element: <SignUp />,
+    },
+    {
+      path: "items-for-donation",
+      element: <ItemsForDonation />
+    },
     ]
-    }, {
-        path: '/dashboard',
-        Component: DashboardLayout,
-        children: [{
-         index: true,
-         element: <h1>Example</h1>
-        }]
-    }
+  }, {
+    path: '/dashboard',
+    Component: DashboardLayout,
+    children: [{
+      index: true,
+      element: <h1>Example</h1>
+    }]
+  }
 ])
 
 export default Router

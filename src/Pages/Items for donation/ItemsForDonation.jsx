@@ -22,7 +22,7 @@ const ItemsForDonation = () => {
 
     return (
         <div>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 bg-orange-50/30">
+            <div class="max-w-7xl  mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6 ">
                {data.map(item => <ItemCard item={item}/>)}
              </div>
         </div>
