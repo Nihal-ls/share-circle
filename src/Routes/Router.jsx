@@ -10,6 +10,7 @@ import DonateItem from '../Pages/Donate/DonateItem';
 import ItemsForDonation from '../Pages/Items for donation/ItemsForDonation';
 import PrivateRoute from './PrivateRouter';
 import Profile from '../Pages/Dashboard/Profile';
+import Users from '../Pages/Dashboard/Admin/Users';
 
 const Router = createBrowserRouter([
   {
@@ -47,6 +48,13 @@ const Router = createBrowserRouter([
         path: "/dashboard/profile",
         element: <PrivateRoute>
           <Profile />
+        </PrivateRoute>
+      },
+
+      {
+        path: "/dashboard/manage-users",
+        element: <PrivateRoute>
+          <Users />
         </PrivateRoute>
       },
     ]
