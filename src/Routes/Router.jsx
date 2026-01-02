@@ -10,6 +10,8 @@ import DonateItem from '../Pages/Donate/DonateItem';
 import ItemsForDonation from '../Pages/Items for donation/ItemsForDonation';
 import PrivateRoute from './PrivateRouter';
 import Profile from '../Pages/Dashboard/Profile';
+import MyDonations from '../Pages/Dashboard/Donner/Mydonations';
+import ViewDetails from '../Components/Root/ViewDetails';
 
 const Router = createBrowserRouter([
   {
@@ -37,6 +39,10 @@ const Router = createBrowserRouter([
       path: "items-for-donation",
       element: <ItemsForDonation />
     },
+    {
+      path: "items/:id",
+      element:<ViewDetails></ViewDetails>
+    }
     ]
   }, {
     path: '/dashboard',
@@ -49,6 +55,12 @@ const Router = createBrowserRouter([
           <Profile />
         </PrivateRoute>
       },
+       {
+        path: "/dashboard/my-donations",
+        element: <PrivateRoute>
+           <MyDonations />
+        </PrivateRoute>
+      }
     ]
   }
 ])
