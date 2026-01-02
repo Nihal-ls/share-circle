@@ -8,7 +8,7 @@ const ItemsForDonation = () => {
     const [data, setData] = useState()
     const [loading, setLoading] = useState(true)
     useEffect(() => {
-        axios.get('http://localhost:3000/items')
+        axios.get('https://share-circle-server.vercel.app/items')
             .then(res => {
                 setData(res.data);
                 setLoading(false)
