@@ -1,5 +1,6 @@
 import { image } from 'framer-motion/client';
 import React from 'react';
+import { Link } from 'react-router';
 
 const ItemCard = ({ item }) => {
 
@@ -64,12 +65,12 @@ const ItemCard = ({ item }) => {
                 </p>
 
                 <div class="card-actions justify-end mt-6">
-                    <button class="btn bg-orange-500 hover:bg-orange-600 border-none text-white w-full group">
+                    <Link to={`/items/${item._id}`} class="btn bg-orange-500 hover:bg-orange-600 border-none text-white w-full group">
                         View Details
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>

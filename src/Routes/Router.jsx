@@ -38,6 +38,10 @@ const Router = createBrowserRouter([
       path: "items-for-donation",
       element: <ItemsForDonation />
     },
+    {
+      path: "items/:id",
+      element:<ViewDetails></ViewDetails>
+    }
     ]
   }, {
     path: '/dashboard',
