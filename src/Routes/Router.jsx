@@ -10,8 +10,7 @@ import DonateItem from '../Pages/Donate/DonateItem';
 import ItemsForDonation from '../Pages/Items for donation/ItemsForDonation';
 import PrivateRoute from './PrivateRouter';
 import Profile from '../Pages/Dashboard/Profile';
-import MyDonations from '../Pages/Dashboard/Donner/Mydonations';
-import ViewDetails from '../Components/Root/ViewDetails';
+import Users from '../Pages/Dashboard/Admin/Users';
 
 const Router = createBrowserRouter([
   {
@@ -55,12 +54,13 @@ const Router = createBrowserRouter([
           <Profile />
         </PrivateRoute>
       },
-       {
-        path: "/dashboard/my-donations",
+
+      {
+        path: "/dashboard/manage-users",
         element: <PrivateRoute>
-           <MyDonations />
+          <Users />
         </PrivateRoute>
-      }
+      },
     ]
   }
 ])

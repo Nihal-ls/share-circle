@@ -40,7 +40,7 @@ const DonateItem = () => {
       };
 
       // 3️⃣ save to MongoDB
-      const res = await fetch("http://localhost:3000/donations", {
+      const res = await fetch("https://share-circle-server.vercel.app/donations", {
         method: "POST",
         headers: {
           "content-type": "application/json",

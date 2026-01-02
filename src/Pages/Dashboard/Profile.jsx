@@ -1,8 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import useAuth from '../../Hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
+import useRole from '../../hooks/useRole';
 const Profile = () => {
     const { user } = useAuth();
+ 
+   const {role} = useRole()
+   console.log(role);
 
     // Fallback data if user is not fully loaded
     const userData = {
@@ -42,7 +46,7 @@ const Profile = () => {
                             {/* Basic Info */}
                             <div className="text-center md:text-left flex-1 pb-2">
                                 <div className="inline-block px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-widest mb-2">
-                                    {userData.role}
+                                    {role}
                                 </div>
                                 <h1 className="text-4xl font-black text-gray-900">{userData.name}</h1>
                                 <p className="text-gray-500 font-medium">Verified Circle Member</p>
@@ -93,7 +97,7 @@ const Profile = () => {
                                     </div>
                                 </div>
                                 <div className="p-4 border border-dashed border-orange-200 rounded-2xl text-center">
-                                    <p className="text-xs text-gray-500">Member since January 2026</p>
+                                    <p className="text-xs text-gray-500">Donate Your Items Safely</p>
                                 </div>
                             </div>
 
