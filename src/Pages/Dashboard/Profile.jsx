@@ -29,7 +29,6 @@ const Profile = () => {
 
                     <div className="px-8 pb-12 -mt-16">
                         <div className="flex flex-col md:flex-row items-center md:items-end gap-6 mb-8">
-                            {/* Profile Image */}
                             <div className="relative">
                                 <img
                                     src={userData.image}
@@ -39,7 +38,6 @@ const Profile = () => {
                                 <div className="absolute bottom-2 right-2 w-6 h-6 bg-green-500 border-4 border-white rounded-full"></div>
                             </div>
 
-                            {/* Basic Info */}
                             <div className="text-center md:text-left flex-1 pb-2">
                                 <div className="inline-block px-3 py-1 rounded-full bg-orange-100 text-orange-600 text-xs font-bold uppercase tracking-widest mb-2">
                                     {userData.role}
@@ -48,7 +46,6 @@ const Profile = () => {
                                 <p className="text-gray-500 font-medium">Verified Circle Member</p>
                             </div>
 
-                            {/* Edit Button */}
                             <button className="btn btn-outline border-gray-200 text-gray-600 hover:bg-gray-50 rounded-2xl px-6 normal-case">
                                 Edit Profile
                             </button>
