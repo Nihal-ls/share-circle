@@ -11,6 +11,6 @@ export const imageUpload = async (imageData) => {
   return data?.data?.display_url;
 };
 export const saveOrUpdateUser = async (userData) => {
-  const { data } = await axios.post("http://localhost:3000/user", userData)
+  const { data } = await axios.post("https://share-circle-server.vercel.app/user", userData)
   return data;
 };
