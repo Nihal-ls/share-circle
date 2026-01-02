@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaUser } from 'react-icons/fa';
+import { FaGift, FaUser } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router';
 
 const DashboardLayout = () => {
@@ -55,6 +55,15 @@ const DashboardLayout = () => {
                                         {/* Home icon */}
                                         <FaUser />
                                         <span className="is-drawer-close:hidden">Profile</span>
+                                    </button>
+                                </NavLink>
+                            </li>
+                             <li>
+                                <NavLink to="/dashboard/my-donations">
+                                    <button className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Donations">
+                                        {/* Home icon */}
+                                        <FaGift />
+                                        <span className="is-drawer-close:hidden">My Donations</span>
                                     </button>
                                 </NavLink>
                             </li>
